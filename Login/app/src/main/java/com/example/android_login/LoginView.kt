@@ -41,10 +41,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.android_login.ui.theme.Android_LoginTheme
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 
 class MainActivity : ComponentActivity() {
-    var viewModel = LoginViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -54,7 +56,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginScreen(viewModel = viewModel)
+                    LoginScreen()
+//                    MyScreen()
                 }
             }
         }
@@ -63,7 +66,8 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(viewModel: LoginViewModel) {
+fun LoginScreen() {
+    val viewModel = hiltViewModel<LoginViewModel>()
     val emailId by viewModel.emailId.collectAsState()
     val password by viewModel.passWord.collectAsState()
     val topColorRed = 70
@@ -130,14 +134,14 @@ fun LoginScreen(viewModel: LoginViewModel) {
                     )
                     TextField(
                         value = emailId,
-                        onValueChange = { viewModel::onEmailIDChanged },
+                        onValueChange = { viewModel.onEmailIDChanged(it) },
                         label = { Text(text = "Email") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     TextField(
                         value = password,
-                        onValueChange = { viewModel::onPasswordChanged},
+                        onValueChange = { viewModel.onPasswordChanged(it)},
                         label = { Text(text = "Password") },
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth()
@@ -181,4 +185,21 @@ fun LoginScreen(viewModel: LoginViewModel) {
     }
 
 }
+
+//@Composable
+//fun MyScreen() {
+//    val viewModel = hiltViewModel<MyViewModel>()
+//    val textFieldValue by viewModel.textFieldValue.collectAsState()
+//
+//    Column {
+//        TextField(
+//            value = textFieldValue,
+//            onValueChange = { viewModel.updateTextFieldValue(it) },
+//            label = { Text("Enter text") }
+//        )
+//        Button(onClick = { viewModel.onButtonClick() }) {
+//            Text("Print Text")
+//        }
+//    }
+//}
 
