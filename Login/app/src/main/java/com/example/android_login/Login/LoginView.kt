@@ -1,4 +1,4 @@
-package com.example.android_login
+package com.example.android_login.Login
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.android_login.Dashboard.DashboardView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

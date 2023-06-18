@@ -55,6 +55,7 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.38.1'
     kapt 'com.google.dagger:hilt-android-compiler:2.38.1'
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
+    implementation 'com.google.code.gson:gson:2.8.9'
 
 // If using Jetpack Compose, also add Hilt Compose dependencies
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
