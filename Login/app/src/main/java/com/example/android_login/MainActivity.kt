@@ -18,6 +18,7 @@ import com.example.android_login.Dashboard.DashboardViewModel
 import com.example.android_login.UserDetails.UserDetailView
 import com.example.android_login.Login.LoginScreen
 import com.example.android_login.Login.LoginViewModel
+import com.example.android_login.Services.AppContext
 import com.example.android_login.ui.theme.Android_LoginTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
@@ -25,8 +26,16 @@ import dagger.hilt.android.HiltAndroidApp
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private var isUserLoggedIn: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Check if the activity is recreated and restore the state
+        if (savedInstanceState != null) {
+            isUserLoggedIn = savedInstanceState.getBoolean(KEY_USER_LOGGED_IN, false)
+        }
+
+        // Initialize the AppContext
+        AppContext.initialize(applicationContext)
         setContent {
             Android_LoginTheme {
                 // A surface container using the 'background' color from the theme
@@ -34,26 +43,35 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    App()
-//                    MyScreen()
-//                    LoginScreen()
+                    App(isUserLoggedIn)
                 }
             }
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(KEY_USER_LOGGED_IN, isUserLoggedIn)
+        super.onSaveInstanceState(outState)
+    }
+
+    companion object {
+        private const val KEY_USER_LOGGED_IN = "userLoggedIn"
+    }
 }
 
 @Composable
-fun App() {
-    val loginViewModel: LoginViewModel = hiltViewModel()
-    val navController = rememberNavController()
+fun App(isUserLoggedIn: Boolean) {
 
-    NavHost(navController = navController, startDestination = "login") {
+    val navController = rememberNavController()
+    var startDestination = "login"
+    if (isUserLoggedIn) {
+        startDestination = "dashboard"
+    }
+    NavHost(navController = navController, startDestination = startDestination) {
         composable("login") {
             LoginScreen(navController)
         }
         composable("dashboard") {
-            val dashboardViewModel: DashboardViewModel = hiltViewModel()
             DashboardView(navController)
         }
         composable("userDetail/{id}") { backStackEntry ->
