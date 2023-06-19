@@ -15,7 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.android_login.Dashboard.DashboardView
 import com.example.android_login.Dashboard.DashboardViewModel
-import com.example.android_login.Dashboard.UserDetailView
+import com.example.android_login.UserDetails.UserDetailView
 import com.example.android_login.Login.LoginScreen
 import com.example.android_login.Login.LoginViewModel
 import com.example.android_login.ui.theme.Android_LoginTheme

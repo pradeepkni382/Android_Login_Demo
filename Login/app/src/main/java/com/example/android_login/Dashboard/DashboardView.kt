@@ -53,11 +53,6 @@ fun DashboardView(navigationController: NavController) {
 }
 @Composable
 fun UserListItem(user: User, navController: NavController) {
-//    Clickable(
-//        onClick = {
-//            navController.navigate("userDetail/${user.id}")
-//        }
-//    ) {
         Column(
             modifier = Modifier
                 .clickable {
@@ -80,17 +75,4 @@ fun ListItem(user: User) {
         Text(text = "Favorite Food: ${user.favoriteFood}")
         Text(text = "Email: ${user.email}")
     }
-}
-
-
-@HiltViewModel
-class UserDetailViewModel @Inject constructor() : ViewModel() {
-    fun setSelectedUser(user: User) {
-        Log.d("UserDetailViewModel","setSelectedUser $user")
-    }
-}
-
-@Composable
-fun UserDetailView(userId: String, navigationController: NavController) {
-    Text(text = "UserDetailView \n $userId")
 }
