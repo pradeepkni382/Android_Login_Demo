@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.android_login.Dashboard.DashboardView
 import com.example.android_login.Dashboard.DashboardViewModel
+import com.example.android_login.Dashboard.UserDetailView
 import com.example.android_login.Login.LoginScreen
 import com.example.android_login.Login.LoginViewModel
 import com.example.android_login.ui.theme.Android_LoginTheme
@@ -49,11 +50,15 @@ fun App() {
 
     NavHost(navController = navController, startDestination = "login") {
         composable("login") {
-            LoginScreen()
+            LoginScreen(navController)
         }
         composable("dashboard") {
             val dashboardViewModel: DashboardViewModel = hiltViewModel()
-            DashboardView()
+            DashboardView(navController)
+        }
+        composable("userDetail/{id}") { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("id")!!
+            UserDetailView(userId = userId, navController)
         }
     }
 }
@@ -62,7 +67,6 @@ fun App() {
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-
        println("=== My Application ===")
     }
 }

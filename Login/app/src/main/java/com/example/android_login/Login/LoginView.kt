@@ -36,18 +36,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.android_login.Dashboard.DashboardView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navigationController: NavController ) {
     val viewModel = hiltViewModel<LoginViewModel>()
     val emailId by viewModel.emailId.collectAsState()
     val password by viewModel.passWord.collectAsState()
     val isValidationSuccessful by viewModel.isValidationSuccessful.collectAsState()
     // Launch DashboardView when validation is successful
     if (isValidationSuccessful) {
-        DashboardView()
+        DashboardView(navigationController)
     } else {
         val topColorRed = 70
         val topColorGreen = 128
