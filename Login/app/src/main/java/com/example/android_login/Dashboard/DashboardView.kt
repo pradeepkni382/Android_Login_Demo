@@ -10,9 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,20 +37,19 @@ import javax.inject.Inject
 fun DashboardView(navigationController: NavController) {
     val viewModel = hiltViewModel<DashboardViewModel>()
     val users = viewModel.getUserDataList().users
-//    val navController = rememberNavController()
+
+
+
 
     Column {
-        Text(text = "Dashboard",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center
-
-        )
+        TopAppBar(title = { Text(text = "Welcome Back") })
         LazyColumn {
-            items(users) { user ->
+            itemsIndexed(users) { index, user ->
                 UserListItem(user = user, navController = navigationController)
+                // Add a divider after each item except the last one
+                if (index < users.size - 1) {
+                    Divider()
+                }
             }
         }
     }
